@@ -11,37 +11,53 @@
 	<link href="jcss/bootstrap.min.css" rel="stylesheet">
 	<link href="jcss/mystyle.css" rel="stylesheet">	
 	<style type="text/css">
-	*{font-size:19px; font-family: 'cwTeXHei', serif;}
-	@font-face {
-	  font-family: 'cwTeXHei';
-	  font-style: normal;
-	  font-weight: 500;
-	  src: url(//fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.eot);
-	  src: url(//fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.eot?#iefix) format('embedded-opentype'),
-	       url(//fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.woff2) format('woff2'),
-	       url(//fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.woff) format('woff'),
-	       url(//fonts.gstatic.com/ea/cwtexhei/v3/cwTeXHei-zhonly.ttf) format('truetype');
+	.btn{
+		height: 10vw;
+		width: 85vw;
+		font-size: 4vw;
+		margin-left: 5vw;
+
 	}
 	</style>
 </head>
 <body>
 
 <div id="container">
-	<h1>2016 CSS春酒刮刮樂開獎號碼</h1>
+	<h1>2016 CSS春酒刮刮樂已開出號碼</h1>
 	<div id="body">
 		<section id="numbox">
 
 		</section>
 	</div>
+	<div>
+		<button class="btn btn-large btn-block btn-success" type="button" id="nextnum">抽出下一號</button>
+	</div>
 	<p class="footer"></p>
+	<div id="ajaxtest"></div>
 </div>
 
 <script src="jcss/jquery-1.12.0.min.js"></script>
 <script src="jcss/bootstrap.min.js"></script>
 <script type="text/javascript">
 	$(function() {
-		//getresult();
-		window.setInterval(getresult, 3000);
+		getresult();
+		//window.setInterval(getresult, 3000);
+		$("#nextnum").click(function(){
+			$.ajax({
+			  url: "recaction.php",
+			  type: "POST",
+			  data: "Type=newnum",
+			  dataType:"text",
+			  success: function(result) {
+			    //getresult();
+			    if(result){
+			    	getresult();
+			    }else{
+			    	alert("try again");
+			    }
+			  }
+			});  
+		});
 	});
 	function getresult(){
 		$.ajax({

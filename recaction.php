@@ -1,21 +1,33 @@
 <?php
 require_once('loadconfig.php');
 
+$FilePath=dirname(__FILE__).'/source/';
+$FileName="75rec.txt";
+$RecFilePath=$FilePath.$FileName;
 $ActionType=$_POST["Type"];
+
 switch($ActionType){
 	case 'newnum':
+		$SeedMaxNum=$ini_ConfigItems['RndMaxNumber'];
+		$SeedRem=$SeedMaxNum-count(GetRecArray());
+		GetNewRndNum($SeedMaxNum,$SeedRem);
+		echo true;
 		# code...
 		break;
-	case 'variable':
-			# code...
+	case 'confini':
+		echo true;
+		break;
+	case 'resetrec':
+		ResetRec($RecFilePath);
+		echo true;
 		break;
 }
+
 function GetRecArray(){
-	$FileName='75rec.txt';
-	$FilePath=dirname(__FILE__).'/source/';
-	if(file_exists($FilePath.$FileName)){
-		$OpenFile = fopen($FilePath.$FileName, "r");
-		$ContentArray=array();
+	$ContentArray=array();
+	global $RecFilePath;
+	if(is_file($RecFilePath)){
+		$OpenFile = fopen($RecFilePath, "r");
 		if ($OpenFile) {
 		    while (!feof($OpenFile)) {
 		        $linetext=fgets($OpenFile, 2048);
@@ -28,21 +40,14 @@ function GetRecArray(){
 	return $ContentArray;
 }
 
-
-
 function GetNewRndNum($maxnum,$CurrCount){
-	if($recArray==null){
-		$isfirst=True;
-	}else{
-		$isfirst=False;
-	}
-	$ctn=0;
+	$RndStop=0;
 	if($CurrCount>0){
-		while($ctn==0){
+		while($RndStop==0){
 			$sn = rand(1,$maxnum); 
 			if(!in_array($sn,GetRecArray())){
 				SaveRec($sn);
-				$ctn=1;
+				$RndStop=1;
 			}
 		}
 		$result=$sn;
@@ -53,15 +58,22 @@ function GetNewRndNum($maxnum,$CurrCount){
 }
 
 function SaveRec($SaveData){
-	$FileName="75rec.txt";
-	$FilePath=dirname(__FILE__).'/source/';
-	$WriteFile = fopen($FilePath.$FileName, "a");
+	global $RecFilePath;
+	$WriteFile = fopen($RecFilePath, "a");
 	$SaveData=$SaveData.",";
 	fwrite($WriteFile, $SaveData);
 	fclose($WriteFile);
 }
+
+function ResetRec($DelFileName){
+	if(is_file($DelFileName)){
+		unlink($DelFileName);
+	}
+
+}
+
 function SaveConfig(){
 	
 }
-GetNewRndNum(75,2);
+
 ?>
