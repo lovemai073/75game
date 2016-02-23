@@ -44,6 +44,7 @@
 		window.setInterval(getresult, 3000);
 	});
 	function getresult(){
+		$.ajaxSetup({ cache: false });
 		$.ajax({
 			  url: "75result.php",
 			  type: "POST",
