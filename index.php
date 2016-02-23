@@ -11,7 +11,8 @@
 	<link href="jcss/bootstrap.min.css" rel="stylesheet">
 	<link href="jcss/mystyle.css" rel="stylesheet">	
 	<style type="text/css">
-	*{font-size:19px; font-family: 'cwTeXHei', serif;}
+	
+	h1{font-family: 'cwTeXHei', serif;}
 	@font-face {
 	  font-family: 'cwTeXHei';
 	  font-style: normal;
