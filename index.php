@@ -46,7 +46,7 @@
 	function getresult(){
 		$.ajax({
 			  url: "75result.php",
-			  type: "GET",
+			  type: "POST",
 			  dataType: "json",
 			  success: function(Jdata) {
 			  	var ajtxt="";
